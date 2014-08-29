@@ -1,0 +1,5 @@
+#!/bin/bash
+echo "$(date)" 2>&1 | tee -a log-sync.txt
+aws s3 sync s3://my-bucket/youtube-upload ~/Video/to-upload 2>&1 | tee -a log-sync.txt
+echo "===================================
+" 2>&1 | tee -a log-sync.txt
