@@ -1,0 +1,29 @@
+#!/bin/bash
+FILES=~/Video/to-upload/*
+YOUTUBEACCOUNT=
+YOUTUBEEMAIL=myaccount@gmail.com
+YOUTUBEPASS=mypassword
+LOG=log-file.txt
+STATUS=UNLISTED
+CATEGORY=Tech
+DESCRIPTION="The long description for your video goes here"
+KEYWORDS="Comma, seperated, keywords"
+
+echo "$(date)" >> $LOG
+
+if [ -e $FILES ] ; then
+
+for f in $FILES
+do
+  echo "Processing "${f##*/} >> $LOG
+  # take action on each file. $f store current file name
+youtube-upload --email=$YOUTUBEEMAIL --password=$YOUTUBEPASS "$f" --unlisted --title="${f##*/}" --category=$CATEGORY --description=$DESCRIPTION --keywords=$KEYWORDS >> $LOG
+  mv "$f" ~/Video/uploaded-videos
+  echo ${F##*/} "moved to ~/Video/uploaded-videos" >> $LOG
+done
+
+  else echo "No files to upload" >> $LOG
+fi
+
+echo "=================================
+" >> $LOG
