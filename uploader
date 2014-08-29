@@ -9,21 +9,21 @@ CATEGORY=Tech
 DESCRIPTION="The long description for your video goes here"
 KEYWORDS="Comma, seperated, keywords"
 
-echo "$(date)" >> $LOG
+echo "$(date)" 2>&1 | tee -a $LOG
 
 if [ -e $FILES ] ; then
 
 for f in $FILES
 do
-  echo "Processing "${f##*/} >> $LOG
+  echo "Processing "${f##*/} 2>&1 | tee -a $LOG
   # take action on each file. $f store current file name
-youtube-upload --email=$YOUTUBEEMAIL --password=$YOUTUBEPASS "$f" --unlisted --title="${f##*/}" --category=$CATEGORY --description=$DESCRIPTION --keywords=$KEYWORDS >> $LOG
+youtube-upload --email=$YOUTUBEEMAIL --password=$YOUTUBEPASS "$f" --unlisted --title="${f##*/}"   --category="$CATEGORY" --description="$DESCRIPTION" --keywords="$KEYWORDS" 2>&1 | tee -a $LOG
   mv "$f" ~/Video/uploaded-videos
-  echo ${F##*/} "moved to ~/Video/uploaded-videos" >> $LOG
+  echo ${F##*/} "moved to ~/Video/uploaded-videos" 2>&1 | tee -a $LOG
 done
 
-  else echo "No files to upload" >> $LOG
+  else echo "No files to upload" 2>&1 | tee -a $LOG
 fi
 
 echo "=================================
-" >> $LOG
+" 2>&1 | tee -a $LOG
