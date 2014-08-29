@@ -6,6 +6,7 @@ YOUTUBEPASS=mypassword
 LOG=log-file.txt
 STATUS=UNLISTED
 CATEGORY=Tech
+TITLE="Default Title" # leave blank if you just want the file name
 DESCRIPTION="The long description for your video goes here"
 KEYWORDS="Comma, seperated, keywords"
 
@@ -17,7 +18,7 @@ for f in $FILES
 do
   echo "Processing "${f##*/} 2>&1 | tee -a $LOG
   # take action on each file. $f store current file name
-youtube-upload --email=$YOUTUBEEMAIL --password=$YOUTUBEPASS "$f" --unlisted --title="${f##*/}"   --category="$CATEGORY" --description="$DESCRIPTION" --keywords="$KEYWORDS" 2>&1 | tee -a $LOG
+youtube-upload --email=$YOUTUBEEMAIL --password=$YOUTUBEPASS "$f" --unlisted --title="${f##*/} $TITLE"   --category="$CATEGORY" --description="$DESCRIPTION" --keywords="$KEYWORDS" 2>&1 | tee -a $LOG
   mv "$f" ~/Video/uploaded-videos
   echo ${F##*/} "moved to ~/Video/uploaded-videos" 2>&1 | tee -a $LOG
 done
