@@ -12,8 +12,10 @@ KEYWORDS="Comma, seperated, keywords"
 
 echo "$(date)" 2>&1 | tee -a $LOG
 
-if [ -e $FILES ] ; then
+if ! [ -e $FILES ] ; then echo "No files to upload" 2>&1 | tee -a $LOG ; fi
+exit
 
+shopt -s nullglob
 for f in $FILES
 do
   echo "Processing "${f##*/} 2>&1 | tee -a $LOG
@@ -22,9 +24,6 @@ youtube-upload --email=$YOUTUBEEMAIL --password=$YOUTUBEPASS "$f" --unlisted --t
   mv "$f" ~/Video/uploaded-videos
   echo ${F##*/} "moved to ~/Video/uploaded-videos" 2>&1 | tee -a $LOG
 done
-
-  else echo "No files to upload" 2>&1 | tee -a $LOG
-fi
 
 echo "=================================
 " 2>&1 | tee -a $LOG
